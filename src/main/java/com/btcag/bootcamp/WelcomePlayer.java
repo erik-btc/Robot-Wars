@@ -36,7 +36,7 @@ public class WelcomePlayer {
             while(x < 15){
                 System.out.print("[ ]");
                 x++;
-                if(y == 14 && x==7) {
+                while(y == 14 && x==7) {
                     System.out.print("[" + roboter + "]");
                     x++;
                 }
