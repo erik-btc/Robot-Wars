@@ -21,12 +21,11 @@ public class WelcomePlayer {
         while (roboterstatus){
             System.out.println("Bitte gib ein Zeichen ein, welches deinen Roboter symbolisieren soll: ");
             roboter = scanner.nextLine();
-            if (roboter.length() != 1){
+            while (roboter.length() != 1){
                 System.out.println("Bitte nur ein Zeichen für den Roboter.");
+                roboter = scanner.nextLine();
             }
-            else {
-                roboterstatus = false;
-            }
+            roboterstatus = false;
         }
         System.out.println("Mach dich bereit zu kämpfen.\nHier ist das Spielfeld:\n");
         int x = 0;
