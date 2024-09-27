@@ -6,6 +6,8 @@ public class Main {
     public static Scanner scanner = new Scanner(System.in);
     public static String username1;
     public static String username2;
+    public static String roboter1;
+    public static String roboter2;
 
     public static String[] getNames(){
         String username1;
@@ -31,14 +33,7 @@ public class Main {
 
 
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String[] players = getNames();
-        username1 = players[0];
-        username2 = players[1];
-        System.out.println(introWelcomingScreen());
-
-
+    public static String[] avatarSelection(){
         String roboter1 = "";
         String roboter2 = "";
         boolean roboterstatus = true;
@@ -57,8 +52,10 @@ public class Main {
                 roboterstatus = false;
             }
         }
+        return new String[]{roboter1, roboter2};
+    }
 
-        System.out.println("Mach dich bereit zu kämpfen.\nHier ist das Spielfeld:\n");
+    public static void drawField(){
         int x = 0;
         int y = 0;
         int xPlayer1 = 7;
@@ -85,5 +82,18 @@ public class Main {
         System.out.println(username1 + " dein Roboter sieht so aus: " + roboter1 + ", und hat diese Koordinaten X Y : " + xPlayer1 + " " + yPlayer1);
         System.out.println(username2 + " dein Roboter sieht so aus: " + roboter2 + ", und hat diese Koordinaten X Y : " + xPlayer2 + " " + yPlayer2);
 
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String[] players = getNames();
+        username1 = players[0];
+        username2 = players[1];
+        String[] roboters = avatarSelection();
+        roboter1 = roboters[0];
+        roboter2 = roboters[1];
+        System.out.println(introWelcomingScreen());
+        System.out.println("Mach dich bereit zu kämpfen.\nHier ist das Spielfeld:\n");
+        drawField();
     }
 }
