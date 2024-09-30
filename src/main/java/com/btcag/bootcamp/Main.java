@@ -88,27 +88,27 @@ public class Main {
     }
 
     public static void playersTurn(){
+        System.out.println("Mit U nach oben(up), R nach rechts(right), D nach unten(down), L nach links(left)");
         if (!playersTurnStatus) {
-            System.out.println("\n" + username1 + " bitte geben Sie ein wie Sie sich bewegen möchten, \n" +
-                    "U für Up, R für Right, D für Down, L für Left und wenn Sie sich nicht bewegen möchten dann bitte Leer lassen.");
-            String playerMove = scanner.nextLine();
+            System.out.println("\n" + username1 + " bitte geben Sie ein wie Sie sich bewegen möchten.\n");
+            String playerMove = scanner.nextLine().toLowerCase();
             switch (playerMove) {
-                case "U" -> {
+                case "u" -> {
                     yPlayer1--;
                     if (yPlayer1 < 0) yPlayer1++;
                     else playersTurnStatus = true;
                 }
-                case "R" -> {
+                case "r" -> {
                     xPlayer1++;
                     if (xPlayer1 >= 15) xPlayer1--;
                     else playersTurnStatus = true;
                 }
-                case "D" -> {
+                case "d" -> {
                     yPlayer1++;
                     if (yPlayer1 >= 10) yPlayer1--;
                     else playersTurnStatus = true;
                 }
-                case "L" -> {
+                case "l" -> {
                     xPlayer1--;
                     if (xPlayer1 < 0) xPlayer1++;
                     else playersTurnStatus = true;
@@ -116,26 +116,25 @@ public class Main {
                 default -> playersTurnStatus = true;
             }
         } else {
-            System.out.println("\n" + username2 + " bitte geben Sie ein wie Sie sich bewegen möchten, \n" +
-                    "U für Up, R für Right, D für Down, L für Left und wenn Sie sich nicht bewegen möchten dann bitte Leer lassen.");
-            String playerMove = scanner.nextLine();
+            System.out.println("\n" + username2 + " bitte geben Sie ein wie Sie sich bewegen möchten.\n");
+            String playerMove = scanner.nextLine().toLowerCase();
             switch (playerMove) {
-                case "U" -> {
+                case "u" -> {
                     yPlayer2--;
                     if (yPlayer2 < 0) yPlayer2++;
                     else playersTurnStatus = false;
                 }
-                case "R" -> {
+                case "r" -> {
                     xPlayer2++;
                     if (xPlayer2 >= 15) xPlayer2--;
                     else playersTurnStatus = false;
                 }
-                case "D" -> {
+                case "d" -> {
                     yPlayer2++;
                     if (yPlayer2 >= 10) yPlayer2--;
                     else playersTurnStatus = false;
                 }
-                case "L" -> {
+                case "l" -> {
                     xPlayer2--;
                     if (xPlayer2 < 0) xPlayer2++;
                     else playersTurnStatus = false;
@@ -149,12 +148,11 @@ public class Main {
     public static void checkWin(){
         if (xPlayer1 == xPlayer2 && yPlayer1 == yPlayer2){
             int winner = random.nextInt(0,2);
-            System.out.println(winner);
             if (winner == 0){
-                System.out.println(username1 + " hat gewonnen.");
+                System.out.println("\n\n" + username1 + " hat gewonnen.");
             }
             else if (winner == 1){
-                System.out.println(username2 + " hat gewonnen.");
+                System.out.println("\n\n" + username2 + " hat gewonnen.");
             }
         }
         else{
