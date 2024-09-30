@@ -67,8 +67,6 @@ public class Main {
         while (y < 10) {
             x = 0;
             while (x < 15) {
-                System.out.print("[ ]");
-                x++;
                 while (y == yPlayer2 && x == xPlayer2) {
                     System.out.print("[" + roboter2 + "]");
                     x++;
@@ -77,6 +75,8 @@ public class Main {
                     System.out.print("[" + roboter1 + "]");
                     x++;
                 }
+                System.out.print("[ ]");
+                x++;
             }
             System.out.println();
             y++;
