@@ -1,5 +1,6 @@
 package com.btcag.bootcamp;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -8,6 +9,12 @@ public class Main {
     public static String username2;
     public static String roboter1;
     public static String roboter2;
+    public static int xPlayer1 = 7;
+    public static int yPlayer1 = 9;
+    public static int xPlayer2 = 7;
+    public static int yPlayer2 = 0;
+    public static boolean playersTurnStatus = false;
+    public static Random random = new Random();
 
     public static String[] getNames(){
         String username1;
@@ -58,20 +65,16 @@ public class Main {
     public static void drawField(){
         int x = 0;
         int y = 0;
-        int xPlayer1 = 7;
-        int yPlayer1 = 9;
-        int xPlayer2 = 7;
-        int yPlayer2 = 0;
         while(y < 10){
             x = 0;
             while(x < 15){
                 System.out.print("[ ]");
                 x++;
-                while (y == 0 && x == 7){
+                while (y == yPlayer2 && x == xPlayer2){
                     System.out.print("[" + roboter2 + "]");
                     x++;
                 }
-                while(y == 9 && x==7) {
+                while(y == yPlayer1 && x == xPlayer1) {
                     System.out.print("[" + roboter1 + "]");
                     x++;
                 }
@@ -79,10 +82,70 @@ public class Main {
             System.out.println();
             y++;
         }
-        System.out.println(username1 + " dein Roboter sieht so aus: " + roboter1 + ", und hat diese Koordinaten X Y : " + xPlayer1 + " " + yPlayer1);
-        System.out.println(username2 + " dein Roboter sieht so aus: " + roboter2 + ", und hat diese Koordinaten X Y : " + xPlayer2 + " " + yPlayer2);
-
+        System.out.println(username1 + " dein Roboter sieht so aus: " + roboter1 + ", und hat diese Koordinaten X Y : " + (xPlayer1 + 1) + " " + (yPlayer1 + 1));
+        System.out.println(username2 + " dein Roboter sieht so aus: " + roboter2 + ", und hat diese Koordinaten X Y : " + (xPlayer2 + 1) + " " + (yPlayer2 + 1));
+        playersTurn();
     }
+
+    public static void playersTurn(){
+        if (!playersTurnStatus) {
+            System.out.println("\n" + username1 + " bitte geben Sie ein wie Sie sich bewegen möchten, \n" +
+                    "U für Up, R für Right, D für Down, L für Left und wenn Sie sich nicht bewegen möchten dann bitte Leer lassen.");
+            String playerMove = scanner.nextLine();
+            switch (playerMove) {
+                case "U" -> {
+                    yPlayer1--;
+                    if (yPlayer1 < 0) yPlayer1++;
+                    else playersTurnStatus = true;
+                }
+                case "R" -> {
+                    xPlayer1++;
+                    if (xPlayer1 >= 15) xPlayer1--;
+                    else playersTurnStatus = true;
+                }
+                case "D" -> {
+                    yPlayer1++;
+                    if (yPlayer1 >= 10) yPlayer1--;
+                    else playersTurnStatus = true;
+                }
+                case "L" -> {
+                    xPlayer1--;
+                    if (xPlayer1 < 0) xPlayer1++;
+                    else playersTurnStatus = true;
+                }
+                default -> playersTurnStatus = true;
+            }
+        } else {
+            System.out.println("\n" + username2 + " bitte geben Sie ein wie Sie sich bewegen möchten, \n" +
+                    "U für Up, R für Right, D für Down, L für Left und wenn Sie sich nicht bewegen möchten dann bitte Leer lassen.");
+            String playerMove = scanner.nextLine();
+            switch (playerMove) {
+                case "U" -> {
+                    yPlayer2--;
+                    if (yPlayer2 < 0) yPlayer2++;
+                    else playersTurnStatus = false;
+                }
+                case "R" -> {
+                    xPlayer2++;
+                    if (xPlayer2 >= 15) xPlayer2--;
+                    else playersTurnStatus = false;
+                }
+                case "D" -> {
+                    yPlayer2++;
+                    if (yPlayer2 >= 10) yPlayer2--;
+                    else playersTurnStatus = false;
+                }
+                case "L" -> {
+                    xPlayer2--;
+                    if (xPlayer2 < 0) xPlayer2++;
+                    else playersTurnStatus = false;
+                }
+                default -> playersTurnStatus = false;
+            }
+        }
+        drawField();
+    }
+
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -95,5 +158,6 @@ public class Main {
         System.out.println(introWelcomingScreen());
         System.out.println("Mach dich bereit zu kämpfen.\nHier ist das Spielfeld:\n");
         drawField();
+
     }
 }
