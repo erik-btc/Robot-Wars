@@ -143,9 +143,24 @@ public class Main {
                 default -> playersTurnStatus = false;
             }
         }
-        drawField();
+        checkWin();
     }
 
+    public static void checkWin(){
+        if (xPlayer1 == xPlayer2 && yPlayer1 == yPlayer2){
+            int winner = random.nextInt(0,2);
+            System.out.println(winner);
+            if (winner == 0){
+                System.out.println(username1 + " hat gewonnen.");
+            }
+            else if (winner == 1){
+                System.out.println(username2 + " hat gewonnen.");
+            }
+        }
+        else{
+            drawField();
+        }
+    }
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
