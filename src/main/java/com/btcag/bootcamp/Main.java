@@ -14,9 +14,8 @@ public class Main {
     public static int xPlayer2 = 7;
     public static int yPlayer2 = 0;
     public static boolean playersTurnStatus = false;
-    public static Random random = new Random();
 
-    public static String[] getNames(){
+    public static String[] getNames() {
         String username1;
         String username2;
         System.out.println("Bitte geben Sie ihren Username ein: ");
@@ -24,23 +23,24 @@ public class Main {
         System.out.println("Bitte geben Sie ihren Username ein: ");
         username2 = scanner.nextLine();
         return new String[]{username1, username2};
+
     }
 
-    public static String introWelcomingScreen(){
+    public static String introWelcomingScreen() {
         return "Willkommen bei \n" +
-        "  _____       _           _       __          __            \n" +
-        " |  __ \\     | |         | |      \\ \\        / /            \n" +
+                "  _____       _           _       __          __            \n" +
+                " |  __ \\     | |         | |      \\ \\        / /            \n" +
                 " | |__) |___ | |__   ___ | |_ _____\\ \\  /\\  / /_ _ _ __ ___ \n" +
                 " |  _  // _ \\| '_ \\ / _ \\| __|______\\ \\/  \\/ / _` | '__/ __|\n" +
                 " | | \\ \\ (_) | |_) | (_) | |_        \\  /\\  / (_| | |  \\__ \\\n" +
                 " |_|  \\_\\___/|_.__/ \\___/ \\__|        \\/  \\/ \\__,_|_|  |___/\n" +
                 "                                                            \n" +
                 "                                                            ";
+
     }
 
 
-
-    public static String[] avatarSelection(){
+    public static String[] avatarSelection() {
         String roboter1 = "";
         String roboter2 = "";
         boolean roboterstatus = true;
@@ -51,30 +51,29 @@ public class Main {
             roboter2 = scanner.nextLine();
             if (roboter1.length() != 1 || roboter2.length() != 1) {
                 System.out.println("Bitte gib nur ein Zeichen ein.");
-            }
-            else if (roboter1.equals(roboter2)) {
+            } else if (roboter1.equals(roboter2)) {
                 System.out.println("Gib bitte nicht das gleiche Zeichen ein wie der andere Spieler.");
-            }
-            else {
+            } else {
                 roboterstatus = false;
             }
         }
         return new String[]{roboter1, roboter2};
+
     }
 
-    public static void drawField(){
+    public static void drawField() {
         int x = 0;
         int y = 0;
-        while(y < 10){
+        while (y < 10) {
             x = 0;
-            while(x < 15){
+            while (x < 15) {
                 System.out.print("[ ]");
                 x++;
-                while (y == yPlayer2 && x == xPlayer2){
+                while (y == yPlayer2 && x == xPlayer2) {
                     System.out.print("[" + roboter2 + "]");
                     x++;
                 }
-                while(y == yPlayer1 && x == xPlayer1) {
+                while (y == yPlayer1 && x == xPlayer1) {
                     System.out.print("[" + roboter1 + "]");
                     x++;
                 }
@@ -85,9 +84,10 @@ public class Main {
         System.out.println(username1 + " dein Roboter sieht so aus: " + roboter1 + ", und hat diese Koordinaten X Y : " + (xPlayer1 + 1) + " " + (yPlayer1 + 1));
         System.out.println(username2 + " dein Roboter sieht so aus: " + roboter2 + ", und hat diese Koordinaten X Y : " + (xPlayer2 + 1) + " " + (yPlayer2 + 1));
         playersTurn();
+
     }
 
-    public static void playersTurn(){
+    public static void playersTurn() {
         System.out.println("Mit U nach oben(up), R nach rechts(right), D nach unten(down), L nach links(left)");
         if (!playersTurnStatus) {
             System.out.println("\n" + username1 + " bitte geben Sie ein wie Sie sich bewegen möchten.\n");
@@ -143,25 +143,25 @@ public class Main {
             }
         }
         checkWin();
+
     }
 
-    public static void checkWin(){
-        if (xPlayer1 == xPlayer2 && yPlayer1 == yPlayer2){
-            int winner = random.nextInt(0,2);
-            if (winner == 0){
+    public static void checkWin() {
+        Random random = new Random();
+        if (xPlayer1 == xPlayer2 && yPlayer1 == yPlayer2) {
+            int winner = random.nextInt(0, 2);
+            if (winner == 0) {
                 System.out.println("\n\n" + username1 + " hat gewonnen.");
-            }
-            else if (winner == 1){
+            } else if (winner == 1) {
                 System.out.println("\n\n" + username2 + " hat gewonnen.");
             }
-        }
-        else{
+        } else {
             drawField();
+
         }
     }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         String[] players = getNames();
         username1 = players[0];
         username2 = players[1];
