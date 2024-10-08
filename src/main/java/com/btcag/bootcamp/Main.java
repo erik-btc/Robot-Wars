@@ -88,27 +88,27 @@ public class Main {
     }
 
     public static void playersTurn() {
-        System.out.println("Mit U nach oben(up), R nach rechts(right), D nach unten(down), L nach links(left)");
+        System.out.println("Mit W nach oben, D nach rechts, s nach unten, A nach links");
         if (!playersTurnStatus) {
             System.out.println("\n" + username1 + " bitte geben Sie ein wie Sie sich bewegen möchten.\n");
             String playerMove = scanner.nextLine().toLowerCase();
             switch (playerMove) {
-                case "u" -> {
+                case "w" -> {
                     yPlayer1--;
                     if (yPlayer1 < 0) yPlayer1++;
                     else playersTurnStatus = true;
                 }
-                case "r" -> {
+                case "d" -> {
                     xPlayer1++;
                     if (xPlayer1 >= 15) xPlayer1--;
                     else playersTurnStatus = true;
                 }
-                case "d" -> {
+                case "s" -> {
                     yPlayer1++;
                     if (yPlayer1 >= 10) yPlayer1--;
                     else playersTurnStatus = true;
                 }
-                case "l" -> {
+                case "a" -> {
                     xPlayer1--;
                     if (xPlayer1 < 0) xPlayer1++;
                     else playersTurnStatus = true;
@@ -119,22 +119,22 @@ public class Main {
             System.out.println("\n" + username2 + " bitte geben Sie ein wie Sie sich bewegen möchten.\n");
             String playerMove = scanner.nextLine().toLowerCase();
             switch (playerMove) {
-                case "u" -> {
+                case "w" -> {
                     yPlayer2--;
                     if (yPlayer2 < 0) yPlayer2++;
                     else playersTurnStatus = false;
                 }
-                case "r" -> {
+                case "d" -> {
                     xPlayer2++;
                     if (xPlayer2 >= 15) xPlayer2--;
                     else playersTurnStatus = false;
                 }
-                case "d" -> {
+                case "s" -> {
                     yPlayer2++;
                     if (yPlayer2 >= 10) yPlayer2--;
                     else playersTurnStatus = false;
                 }
-                case "l" -> {
+                case "a" -> {
                     xPlayer2--;
                     if (xPlayer2 < 0) xPlayer2++;
                     else playersTurnStatus = false;
