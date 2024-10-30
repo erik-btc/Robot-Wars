@@ -2,15 +2,15 @@ package com.btcag.bootcamp;
 
 import java.util.Scanner;
 
-public class Spielrunde {
-    private Spielfeld spielfeld;
-    private Roboter spieler1;
-    private Roboter spieler2;
+public class GameRound {
+    private Gamefield battlefield;
+    private Robot player1;
+    private Robot player2;
 
-    public Spielrunde() {
+    public GameRound() {
 
     }
-    public void starteRunde(){
+    public void startRound(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Willkommen bei \n" +
                 "  _____       _           _       __          __            \n" +
@@ -24,39 +24,39 @@ public class Spielrunde {
         String username1;
         System.out.println("Bitte geben Sie ihren Username ein: ");
         username1 = scanner.nextLine();
-        Roboter[] player = setupPlayer(username1);
-        spieler1 = player[0];
-        spieler2 = player[1];
-        spielfeld = new Spielfeld();
-        spielfeld.setPlayers(spieler1, spieler2);
+        Robot[] player = setupPlayer(username1);
+        player1 = player[0];
+        player2 = player[1];
+        battlefield = new Gamefield();
+        battlefield.setPlayers(player1, player2);
 
     }
 
-    private Roboter[] setupPlayer(String username){
-        Roboter[] players = new Roboter[2];
-        players[0] = new Roboter(7, 9, username, "*");
-        players[1] = new Roboter(7, 0, "enemy", "#");
+    private Robot[] setupPlayer(String username){
+        Robot[] players = new Robot[2];
+        players[0] = new Robot(7, 9, username, "*");
+        players[1] = new Robot(7, 0, "enemy", "#");
         return players;
     }
 
-    public void spieleHauptspiel(){
-        int runde = 0;
+    public void playGame(){
+        int round = 0;
         do{
-            if (runde % 2 == 0){
-                int damageDone = spieler1.doAction(spieler1.askAction(), spieler1.askDirection());
-                spieler2.getDamage(damageDone);
+            if (round % 2 == 0){
+                int damageDone = player1.doAction(player1.askAction(), player1.askDirection());
+                player2.getDamage(damageDone);
             }
             else{
-                int damageDone = spieler2.doAction(spieler2.askAction(), spieler2.askDirection());
-                spieler1.getDamage(damageDone);
+                int damageDone = player2.doAction(player2.askAction(), player2.askDirection());
+                player1.getDamage(damageDone);
             }
-            spielfeld.drawField();
-            System.out.println(runde + " Runde");
-            runde++;
+            battlefield.drawField();
+            System.out.println(round + " Runde");
+            round++;
         }while(!checkGameOver());
     }
 
     public boolean checkGameOver() {
-        return spieler1.getHp() == 0 || spieler2.getHp() == 0;
+        return player1.getHp() == 0 || player2.getHp() == 0;
     }
 }

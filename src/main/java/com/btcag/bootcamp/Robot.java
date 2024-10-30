@@ -2,7 +2,7 @@ package com.btcag.bootcamp;
 
 import java.util.Scanner;
 
-public class Roboter {
+public class Robot {
     int hp ;
     int energy;
     int shield;
@@ -16,7 +16,7 @@ public class Roboter {
     String username;
     String roboterSymbol;
 
-    public Roboter(int x, int y, String username, String roboterSymbol) {
+    public Robot(int x, int y, String username, String roboterSymbol) {
         this.hp = 1;
         this.energy = 1;
         this.shield = 1;

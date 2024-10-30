@@ -1,12 +1,12 @@
 package com.btcag.bootcamp;
 
-public class Spielfeld {
+public class Gamefield {
     private int xSize;
     private int ySize;
-    private Roboter player1;
-    private Roboter player2;
+    private Robot player1;
+    private Robot player2;
     private boolean playersSet = false;
-    public Spielfeld(){
+    public Gamefield(){
         xSize=10;
         ySize=15;
     }
@@ -30,7 +30,7 @@ public class Spielfeld {
         }
     }
 
-    public void setPlayers(Roboter player1, Roboter player2) {
+    public void setPlayers(Robot player1, Robot player2) {
         this.player1=player1;
         this.player2=player2;
         this.playersSet = true;
