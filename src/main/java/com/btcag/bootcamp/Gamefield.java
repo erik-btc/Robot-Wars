@@ -36,4 +36,7 @@ public class Gamefield {
         this.playersSet = true;
     }
 
+    public void setPlayersSet(boolean playersSet) {
+        this.playersSet = playersSet;
+    }
 }

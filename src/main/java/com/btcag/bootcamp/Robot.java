@@ -3,33 +3,34 @@ package com.btcag.bootcamp;
 import java.util.Scanner;
 
 public class Robot {
-    int hp ;
+    int hp;
     int energy;
     int shield;
     int damage;
     int range;
     int damageZone;
     int accuracy;
-    int movementSpeed;
+    int movementPoints;
     int x;
     int y;
     String username;
     String roboterSymbol;
 
-    public Robot(int x, int y, String username, String roboterSymbol) {
-        this.hp = 1;
+    public Robot(int x, int y, int hp, int damage, int range, int movementPoints,String username, String roboterSymbol) {
+        this.hp = hp;
         this.energy = 1;
         this.shield = 1;
-        this.damage = 1;
-        this.range = 1;
+        this.damage = damage;
+        this.range = range;
         this.damageZone = 1;
         this.accuracy = 1;
-        this.movementSpeed = 1;
+        this.movementPoints = movementPoints;
         this.x = x;
         this.y = y;
         this.username = username;
         this.roboterSymbol = roboterSymbol;
     }
+
     public int getXPosition(){
         return x;
     }
@@ -39,24 +40,43 @@ public class Robot {
     public String getRoboterSymbol(){
         return roboterSymbol;
     }
+
     public void move(String direction){
         switch (direction) {
             case "w" -> {
+                if (y > 0) y--;
+                else System.out.println("Invalid direction");
+            }
+            case "e" -> {
+                x++;
                 y--;
             }
             case "d" -> {
                 x++;
             }
-            case "s" -> {
+            case "c" -> {
+                x++;
+                y++;
+            }
+            case "x" -> {
+                y++;
+            }
+            case "y" -> {
+                x--;
                 y++;
             }
             case "a" -> {
                 x--;
             }
+            case "q" -> {
+                x--;
+                y--;
+            }
+            case "s" -> {
+
+            }
         }
     }
-
-
 
     public int attack(){
         return damage;
@@ -97,5 +117,9 @@ public class Robot {
 
     public void getDamage(int damage){
         hp -= damage;
+    }
+
+    public int getMovementPoints(){
+        return movementPoints;
     }
 }
