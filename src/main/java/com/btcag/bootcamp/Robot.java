@@ -15,8 +15,9 @@ public class Robot {
     int y;
     String username;
     String roboterSymbol;
+    boolean knockedOut;
 
-    public Robot(int x, int y, int hp, int damage, int range, int movementPoints,String username, String roboterSymbol) {
+    public Robot(int x, int y, int hp, int damage, int range, int movementPoints,String username, String roboterSymbol, boolean knockedOut) {
         this.hp = hp;
         this.energy = 1;
         this.shield = 1;
@@ -29,6 +30,7 @@ public class Robot {
         this.y = y;
         this.username = username;
         this.roboterSymbol = roboterSymbol;
+        this.knockedOut = knockedOut;
     }
 
     public int getXPosition(){
@@ -39,6 +41,14 @@ public class Robot {
     }
     public String getRoboterSymbol(){
         return roboterSymbol;
+    }
+
+    public void setKnockedOut(boolean knockedOut) {
+        this.knockedOut = knockedOut;
+    }
+
+    public boolean getKnockedOut() {
+        return knockedOut;
     }
 
     public void move(String direction){
@@ -117,6 +127,34 @@ public class Robot {
 
     public void getDamage(int damage){
         hp -= damage;
+    }
+
+    public int getterForDamage(){
+        return damage;
+    }
+
+    public int getRange() {
+        return range;
+    }
+
+    public void setRange(int range) {
+        this.range = range;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public void setterForRange(int range) {
+        this.range = range;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public void setMovementPoints(int movementPoints) {
+        this.movementPoints = movementPoints;
     }
 
     public int getMovementPoints(){
