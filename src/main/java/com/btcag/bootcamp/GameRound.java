@@ -32,6 +32,23 @@ public class GameRound {
 
     }
 
+    public boolean inRange(Robot player1, Robot player2){
+        //Rechts und Oben
+        if ((player1.getX() + player1.getRange() >= player2.getX() && player2.getX() >= player1.getX()) && (player1.getY() + player1.getRange() >= player2.getY() && player2.getY() >= player1.getY())
+                //Rechts und Unten
+                || (player1.getX() + player1.getRange() >= player2.getX() && player2.getX() >= player1.getX()) && (player1.getY() - player1.getRange() <= player2.getY() && player2.getY() <= player1.getY())
+                //Links und Oben
+                || (player1.getX() - player1.getRange() <= player2.getX() && player2.getX() <= player1.getX()) && (player1.getY() + player1.getRange() >= player2.getY() && player2.getY() >= player1.getY())
+                //Links und Unten
+                || (player1.getX() - player1.getRange() <= player2.getX() && player2.getX() <= player1.getX()) && (player1.getY() - player1.getRange() <= player2.getY() && player2.getY() <= player1.getY()))
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     public void allocationOfSkillPoints(Robot player){
         Scanner scanner = new Scanner(System.in);
         int skillPoints = 10;
@@ -81,7 +98,14 @@ public class GameRound {
                 while (i != player1.getMovementPoints()){
                     System.out.println("\n\nSpieler 1 ist dran");
                     int damageDone = player1.doAction(player1.askAction(), player1.askDirection());
-                    player2.getDamage(damageDone);
+                    if (inRange(player1, player2)){
+                        player2.getDamage(damageDone);
+                        System.out.println("Spieler 2 HP: " + player2.getHp());
+                        i = player1.getMovementPoints();
+                    }
+                    else {
+                        System.out.println("\nSpieler 2 ist nicht in Range\n");
+                    }
                     i++;
                     battlefield.drawField();
                     if (player2.getHp() < 1){
@@ -93,7 +117,14 @@ public class GameRound {
                 while (i != player2.getMovementPoints()){
                     System.out.println("\n\nSpieler 2 ist dran");
                     int damageDone = player2.doAction(player2.askAction(), player2.askDirection());
-                    player1.getDamage(damageDone);
+                    if (inRange(player2, player1)){
+                        player1.getDamage(damageDone);
+                        System.out.println("Spieler 1 HP: " + player1.getHp());
+                        i = player2.getMovementPoints();
+                    }
+                    else{
+                        System.out.println("\nSpieler 1 ist nicht in Range\n");
+                    }
                     i++;
                     battlefield.drawField();
                     if (player1.getHp() < 1){

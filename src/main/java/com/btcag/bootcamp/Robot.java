@@ -33,10 +33,10 @@ public class Robot {
         this.knockedOut = knockedOut;
     }
 
-    public int getXPosition(){
+    public int getX(){
         return x;
     }
-    public int getYPosition(){
+    public int getY(){
         return y;
     }
     public String getRoboterSymbol(){
@@ -143,10 +143,6 @@ public class Robot {
 
     public void setHp(int hp) {
         this.hp = hp;
-    }
-
-    public void setterForRange(int range) {
-        this.range = range;
     }
 
     public void setDamage(int damage) {
