@@ -1,4 +1,4 @@
-package com.btcag.bootcamp;
+package com.btcag.bootcamp.models;
 
 import java.util.Scanner;
 
@@ -14,48 +14,46 @@ public class Robot {
     int x;
     int y;
     String username;
-    String roboterSymbol;
+    char robotSymbol;
     boolean knockedOut;
 
-    public Robot(int x, int y, int hp, int damage, int range, int movementPoints,String username, String roboterSymbol, boolean knockedOut) {
-        this.hp = hp;
-        this.energy = 1;
-        this.shield = 1;
-        this.damage = damage;
-        this.range = range;
-        this.damageZone = 1;
-        this.accuracy = 1;
-        this.movementPoints = movementPoints;
+    public Robot(String username, int x, int y, char robotSymbol, int hp, int damage, int range, int movementPoints) {
+        this.username = username;
         this.x = x;
         this.y = y;
-        this.username = username;
-        this.roboterSymbol = roboterSymbol;
-        this.knockedOut = knockedOut;
+        this.robotSymbol = robotSymbol;
+        this.hp = hp;
+        this.damage = damage;
+        this.range = range;
+        this.movementPoints = movementPoints;
     }
 
-    public int getX(){
+    public int getX() {
         return x;
     }
-    public int getY(){
+
+    public int getY() {
         return y;
     }
-    public String getRoboterSymbol(){
-        return roboterSymbol;
+
+    public char getRobotSymbol() {
+        return robotSymbol;
     }
 
-    public void setKnockedOut(boolean knockedOut) {
-        this.knockedOut = knockedOut;
+    public String getName() {
+        return username;
     }
 
-    public boolean getKnockedOut() {
-        return knockedOut;
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
+
 
     public void move(String direction){
         switch (direction) {
             case "w" -> {
-                if (y > 0) y--;
-                else System.out.println("Invalid direction");
+                y--;
             }
             case "e" -> {
                 x++;
@@ -105,11 +103,7 @@ public class Robot {
         return 0;
     }
 
-    public int askAction(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Bitte gib an [1]Bewegen oder [2]Angreifen");
-        return scanner.nextInt();
-    }
+
 
     public String askDirection(){
         Scanner scanner = new Scanner(System.in);
@@ -117,9 +111,6 @@ public class Robot {
         return scanner.nextLine();
     }
 
-    public boolean checkPosition(int i, int j){
-        return x == j && y == i;
-    }
 
     public int getHp(){
         return hp;
@@ -156,4 +147,6 @@ public class Robot {
     public int getMovementPoints(){
         return movementPoints;
     }
+
+
 }
