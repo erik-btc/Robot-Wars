@@ -16,8 +16,9 @@ public class Robot {
     String username;
     char robotSymbol;
     boolean knockedOut;
+    String alignment;
 
-    public Robot(String username, int x, int y, char robotSymbol, int hp, int damage, int range, int movementPoints) {
+    public Robot(String username, int x, int y, char robotSymbol, int hp, int damage, int range, int movementPoints, String alignment) {
         this.username = username;
         this.x = x;
         this.y = y;
@@ -26,6 +27,15 @@ public class Robot {
         this.damage = damage;
         this.range = range;
         this.movementPoints = movementPoints;
+        this.alignment = alignment;
+    }
+
+    public String getAlignment(){
+        return alignment;
+    }
+
+    public void setAlignment(String alignment){
+        this.alignment = alignment;
     }
 
     public int getX() {
@@ -146,6 +156,14 @@ public class Robot {
 
     public int getMovementPoints(){
         return movementPoints;
+    }
+
+    public void setName(String username) {
+        this.username = username;
+    }
+
+    public void setRobotSymbol(char robotSymbol) {
+        this.robotSymbol = robotSymbol;
     }
 
 

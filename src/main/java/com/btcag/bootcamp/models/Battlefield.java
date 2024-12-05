@@ -12,7 +12,6 @@ public class Battlefield {
         this.initializeMap();
         this.width = width;
         this.height = height;
-
     }
 
     private void initializeMap() {
@@ -37,7 +36,12 @@ public class Battlefield {
         return map;
     }
 
-    public boolean isValidField(int x, int y) {
+    public boolean isValidField(int x, int y, Obstacle[] obstacles) {
+        for (Obstacle obstacle : obstacles) {
+            if (obstacle.getX() == x && obstacle.getY() == y) {
+                return false;
+            }
+        }
         return x > 0 && x <= width && y > 0 && y <= height;
     }
 }
