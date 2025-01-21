@@ -1,5 +1,6 @@
 package com.btcag.bootcamp.services;
 
+import com.btcag.bootcamp.models.Obstacle;
 import com.btcag.bootcamp.models.Robot;
 
 import java.util.Objects;
@@ -37,13 +38,28 @@ public class RobotService {
 
     public static boolean inRange(Robot player1, Robot player2){
         //Rechts und Oben
-        if ((player1.getX() + player1.getRange() >= player2.getX() && player2.getX() >= player1.getX()) && (player1.getY() + player1.getRange() >= player2.getY() && player2.getY() >= player1.getY())
+        if ((player1.getX() + player1.getRange() >= player2.getX() &&
+                player2.getX() >= player1.getX()) &&
+                (player1.getY() + player1.getRange() >= player2.getY() &&
+                player2.getY() >= player1.getY())
+                ||
                 //Rechts und Unten
-                || (player1.getX() + player1.getRange() >= player2.getX() && player2.getX() >= player1.getX()) && (player1.getY() - player1.getRange() <= player2.getY() && player2.getY() <= player1.getY())
+                (player1.getX() + player1.getRange() >= player2.getX() &&
+                 player2.getX() >= player1.getX()) &&
+                (player1.getY() - player1.getRange() <= player2.getY() &&
+                player2.getY() <= player1.getY())
+                ||
                 //Links und Oben
-                || (player1.getX() - player1.getRange() <= player2.getX() && player2.getX() <= player1.getX()) && (player1.getY() + player1.getRange() >= player2.getY() && player2.getY() >= player1.getY())
+                (player1.getX() - player1.getRange() <= player2.getX() &&
+                player2.getX() <= player1.getX()) &&
+                (player1.getY() + player1.getRange() >= player2.getY() &&
+                player2.getY() >= player1.getY())
+                ||
                 //Links und Unten
-                || (player1.getX() - player1.getRange() <= player2.getX() && player2.getX() <= player1.getX()) && (player1.getY() - player1.getRange() <= player2.getY() && player2.getY() <= player1.getY()))
+                (player1.getX() - player1.getRange() <= player2.getX() &&
+                player2.getX() <= player1.getX()) &&
+                (player1.getY() - player1.getRange() <= player2.getY() &&
+                 player2.getY() <= player1.getY()))
         {
             return true;
         }
@@ -51,6 +67,50 @@ public class RobotService {
             return false;
         }
     }
+
+    public static boolean checkIfObstacleIsInWayHorizontally(Robot player1, Robot player2, Obstacle[] obstacles){
+        for (Obstacle obstacle : obstacles){
+            if (player1.getX() < obstacle.getX() &&
+                    player2.getX() > obstacle.getX() &&
+                    (obstacle.getY() == player1.getY() &&
+                            obstacle.getY() == player2.getY())){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    public static boolean checkIfObstacleIsInWayVertically(Robot player1, Robot player2, Obstacle[] obstacles){
+        for (Obstacle obstacle : obstacles){
+            if (player1.getY() < obstacle.getY() &&
+                    player2.getY() > obstacle.getY() &&
+                    (obstacle.getX() == player1.getX() &&
+                            obstacle.getX() == player2.getX())){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    public static boolean checkIfObstacleIsInWayDiagonally(Robot player1, Robot player2, Obstacle[] obstacles){
+        for(Obstacle obstacle : obstacles){
+            int valueOne;
+            int valueTwo;
+            int valueThree;
+            int valueFour;
+            valueOne = player1.getX() - obstacle.getX();
+            valueTwo = player1.getY() - obstacle.getY();
+            valueThree = player2.getX() + obstacle.getX();
+            valueFour = player2.getY() + obstacle.getY();
+            if(Math.abs(valueOne) == Math.abs(valueTwo) && Math.abs(valueThree) == Math.abs(valueFour)){
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     public static boolean checkDiagonalAlignment(Robot player1, Robot player2){
         int valueOne;
@@ -65,25 +125,33 @@ public class RobotService {
 
     public static boolean checkDiagonal(Robot player1, Robot player2){
         if(Objects.equals(player1.getAlignment(), "NORDOST")){
-            if (player1.getX() < player2.getX() && player1.getY() > player2.getY() && checkDiagonalAlignment(player1, player2)){
+            if (player1.getX() < player2.getX() &&
+                    player1.getY() > player2.getY() &&
+                    checkDiagonalAlignment(player1, player2)){
                 return true;
             }
             return false;
         }
         else if(Objects.equals(player1.getAlignment(), "NORDWEST")){
-            if (player1.getX() > player2.getX() && player1.getY() > player2.getY() && checkDiagonalAlignment(player1, player2)){
+            if (player1.getX() > player2.getX() &&
+                    player1.getY() > player2.getY() &&
+                    checkDiagonalAlignment(player1, player2)){
                 return true;
             }
             return false;
         }
         else if(Objects.equals(player1.getAlignment(), "SUEDOST")){
-            if (player1.getX() < player2.getX() && player1.getY() < player2.getY() && checkDiagonalAlignment(player1, player2)){
+            if (player1.getX() < player2.getX() &&
+                    player1.getY() < player2.getY() &&
+                    checkDiagonalAlignment(player1, player2)){
                 return true;
             }
             return false;
         }
         else if(Objects.equals(player1.getAlignment(), "SUEDWEST")){
-            if (player1.getX() > player2.getX() && player1.getY() < player2.getY() && checkDiagonalAlignment(player1, player2)){
+            if (player1.getX() > player2.getX() &&
+                    player1.getY() < player2.getY() &&
+                    checkDiagonalAlignment(player1, player2)){
                 return true;
             }
             return false;

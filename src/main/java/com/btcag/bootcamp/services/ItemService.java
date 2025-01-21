@@ -9,7 +9,7 @@ public class ItemService {
     public static void processingItemEffect(Robot player, Item item){
         Random random = new Random();
         item.setItemSymbol(' ');
-        int randomNumber = random.nextInt(3);
+        int randomNumber = random.nextInt(0,2);
         if(randomNumber == 0){
             player.setDamage(player.getterForDamage() + item.getItemEffect());
             System.out.println(player.getName() + "'s Damage ist jetzt: " + player.getterForDamage());
@@ -18,9 +18,6 @@ public class ItemService {
             player.setRange(player.getRange() + item.getItemEffect());
             System.out.println(player.getName() + "'s Range ist jetzt: " + player.getRange());
         }
-        else if(randomNumber == 2){
-            player.setMovementPoints(player.getMovementPoints() + item.getItemEffect());
-            System.out.println(player.getName() + "'s Movement Points ist jetzt: " + player.getMovementPoints());
-        }
+
     }
 }

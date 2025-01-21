@@ -9,17 +9,20 @@ import com.btcag.bootcamp.services.ItemService;
 import com.btcag.bootcamp.services.RobotService;
 import com.btcag.bootcamp.views.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class GameController {
     public static Random random = new Random();
-    public static ItemService itemService;
     public static Battlefield battlefield = new Battlefield(15, 10);
     public static int newX;
     public static int newY;
     public static Obstacle[] obstacles = new Obstacle[15];
     public static Robot player1 = new Robot("", 1, 1, '*',1,1,1,1, "s");
     public static Robot player2 = new Robot("", 15, 10, '#',1,1,1,1, "n");
+    public static List<Robot> robots = new ArrayList<>();
+
 
     public static void movementOfPlayers(Robot player){
             BattlefieldView.display(battlefield);
@@ -64,7 +67,7 @@ public class GameController {
         battlefield.setField(player2.getX(), player2.getY(), player2.getRobotSymbol());
 
         Robot winner = null;
-        boolean playersTurn = RobotService.decidingWhoStarts(player1, player2);//true for player 1, false for player 2
+        boolean playersTurn = RobotService.decidingWhoStarts(player1, player2); //true for player 1, false for player 2
 
         System.out.println(SkillPointsView.showPlayerStats(player1));
         System.out.println(SkillPointsView.showPlayerStats(player2));
@@ -110,6 +113,9 @@ public class GameController {
                             if (RobotService.checkDiagonal(player1, player2) ||
                                     RobotService.checkHorizontalAlignment(player1, player2) ||
                                     RobotService.checkVerticalAlignment(player1, player2) &&
+                                    RobotService.checkIfObstacleIsInWayVertically(player1, player2, obstacles) &&
+                                    RobotService.checkIfObstacleIsInWayDiagonally(player1, player2, obstacles) &&
+                                    RobotService.checkIfObstacleIsInWayHorizontally(player1, player2, obstacles) &&
                                     RobotService.inRange(player1, player2)){
                                 player2.getDamage(player1.getterForDamage());
                                 System.out.println("Spieler 2 HP: " + player2.getHp());
@@ -120,7 +126,7 @@ public class GameController {
                                 }
                             }
                             else {
-                                PlayerIsNotInRangeView.display(player2);
+                                PlayerIsNotInRangeOrObstacleIsInTheWayView.display(player2);
                                 i--;
                             }
                         }
@@ -166,6 +172,9 @@ public class GameController {
                             if ((RobotService.checkDiagonal(player2, player1) ||
                                     RobotService.checkHorizontalAlignment(player2, player1) ||
                                     RobotService.checkVerticalAlignment(player2, player1)) &&
+                                    RobotService.checkIfObstacleIsInWayVertically(player2, player1, obstacles) &&
+                                    RobotService.checkIfObstacleIsInWayDiagonally(player2, player1, obstacles) &&
+                                    RobotService.checkIfObstacleIsInWayHorizontally(player2, player1, obstacles) &&
                                     RobotService.inRange(player1, player2)){
                                 player1.getDamage(player2.getterForDamage());
                                 System.out.println("Spieler 1 HP: " + player1.getHp());
@@ -176,7 +185,7 @@ public class GameController {
                                 }
                             }
                             else{
-                                PlayerIsNotInRangeView.display(player1);
+                                PlayerIsNotInRangeOrObstacleIsInTheWayView.display(player1);
                                 i--;
                             }
                         }
