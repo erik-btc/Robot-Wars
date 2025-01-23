@@ -4,18 +4,13 @@ import java.util.Scanner;
 
 public class Robot {
     int hp;
-    int energy;
-    int shield;
     int damage;
     int range;
-    int damageZone;
-    int accuracy;
     int movementPoints;
     int x;
     int y;
     String username;
     char robotSymbol;
-    boolean knockedOut;
     String alignment;
 
     public Robot(String username, int x, int y, char robotSymbol, int hp, int damage, int range, int movementPoints, String alignment) {
