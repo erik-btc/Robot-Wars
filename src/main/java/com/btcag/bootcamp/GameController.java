@@ -21,7 +21,6 @@ public class GameController {
     public static Obstacle[] obstacles = new Obstacle[15];
     public static Robot player1 = new Robot("", 1, 1, '*',1,1,1,1, "s");
     public static Robot player2 = new Robot("", 15, 10, '#',1,1,1,1, "n");
-    public static List<Robot> robots = new ArrayList<>();
 
 
     public static void movementOfPlayers(Robot player){
