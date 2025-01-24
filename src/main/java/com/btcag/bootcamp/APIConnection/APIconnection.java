@@ -36,6 +36,7 @@ public class APIconnection {
     public static Bot bot = new Bot("", 1, 1, 1, 1);
 
     public static void main(String[] args) throws IOException, InterruptedException {
+
         Scanner scanner = new Scanner(System.in);
         int userInput;
         do {
@@ -61,7 +62,7 @@ public class APIconnection {
                 createGame();
             }
             else if(userInput == 7) {
-                joinGame();
+                joinGame(gameId);
             }
             else if (userInput == 8) {
                 getSpecificGame();
@@ -81,7 +82,7 @@ public class APIconnection {
         }while(userInput != 0);
     }
 
-    private static void getSpecificGame() throws IOException {
+    public static void getSpecificGame() throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("GameId: ");
         String gameId = scanner.nextLine();
@@ -101,7 +102,7 @@ public class APIconnection {
         connection.disconnect();
     }
 
-    private static void getAllGames() throws IOException {
+    public static void getAllGames() throws IOException {
         URL url = new URL(baseURL + "/api/games");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -118,7 +119,7 @@ public class APIconnection {
         connection.disconnect();
     }
 
-    private static void getAllBots() throws IOException {
+    public static void getAllBots() throws IOException {
         URL url = new URL(baseURL + getBotURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -135,7 +136,7 @@ public class APIconnection {
         connection.disconnect();
     }
 
-    private static void getSpecificBot() throws IOException {
+    public static void getSpecificBot() throws IOException {
         System.out.println("UserID: ");
         Scanner scanner = new Scanner(System.in);
         String userID = scanner.nextLine();
@@ -155,7 +156,7 @@ public class APIconnection {
         connection.disconnect();
     }
 
-    private static void getAllMaps()throws IOException {
+    public static void getAllMaps()throws IOException {
         URL url = new URL(baseURL + getMapURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -172,7 +173,7 @@ public class APIconnection {
         connection.disconnect();
     }
 
-    private static void getSpecificMap() throws IOException {
+    public static void getSpecificMap() throws IOException {
         System.out.println("MapID: ");
         Scanner scanner = new Scanner(System.in);
         String mapID = scanner.nextLine();
@@ -279,6 +280,7 @@ public class APIconnection {
             JSONObject responseObject = new JSONObject(response.toString());
             gameId = responseObject.getString("id");
             System.out.println("gameId: " + gameId);
+            return gameId;
         } catch (IOException e) {
             try (BufferedReader errorReader = new BufferedReader(
                     new InputStreamReader(connection.getErrorStream(), "utf-8"))) {
@@ -293,10 +295,7 @@ public class APIconnection {
         return "error";
     }
 
-    public static String joinGame() throws IOException{
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter gameId: ");
-        String gameId = scanner.nextLine();
+    public static String joinGame(String gameId) throws IOException{
         URL url = new URL(baseURL + joinGameURL + gameId + "/join");
         System.out.println(url);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
