@@ -3,7 +3,36 @@ package com.btcag.bootcamp.models;
 import java.util.Arrays;
 
 public class Battlefield {
-    private final char[][] map;
+    private char[]board;
+    private final int rows;
+    private final int   cols;
+
+    // Erstellung der Map
+    public Battlefield(int rows, int cols) {
+        this.rows = rows;
+        this.cols = cols;
+        board = new char[rows*cols];
+        for(int i = 0; i < board.length; i++) {
+            board[i] = '.';
+        }
+    }
+
+    // Map wird initalisiert
+    public void initializeMap() {
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < cols; j++) {
+                System.out.print(board[i*cols+j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    // Symbol (Roboter, Hindernisse oder items) auf die Karte bringen
+    public void printSymbol(int mapIndex, char symbol) {
+        board[mapIndex] = symbol;
+    }
+
+    /*private final char[][] map;
     private final int width;
     private final int height;
 
@@ -43,5 +72,5 @@ public class Battlefield {
             }
         }
         return x > 0 && x <= width && y > 0 && y <= height;
-    }
+    }*/
 }

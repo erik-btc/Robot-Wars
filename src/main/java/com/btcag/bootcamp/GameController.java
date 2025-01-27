@@ -214,7 +214,7 @@ public class GameController {
                 playersTurn = !playersTurn;
             }
         } while (null == winner);
-        WinnerView.display(winner);
+        //WinnerView.display(winner);
     }
 }
 

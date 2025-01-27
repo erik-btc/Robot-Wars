@@ -1,17 +1,18 @@
 package com.btcag.bootcamp.APIConnection;
-import com.btcag.bootcamp.models.Robot;
 //import com.google.gson.JsonObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.*;
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.btcag.bootcamp.views.AskForRobotNameView;
 import com.btcag.bootcamp.views.BotSkillpointsView;
 import com.btcag.bootcamp.views.ShowOptionsView;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -30,8 +31,10 @@ public class APIconnection {
     protected static String getAllMovesURL = "api/games/game/";
     protected static String mapId = "d2d0b803-955d-4367-8fdd-c8c3f94fecbb";
     protected static String gameId = "";
-    protected static String robotId = "";
-    protected static String playerId = "";
+    protected static String robot1Id = "";
+    protected static String robot2Id = "";
+    protected static String player1Id = "";
+    protected static String player2Id = "";
     protected static String mapIndex = "";
     public static Bot bot = new Bot("", 1, 1, 1, 1);
 
@@ -72,6 +75,9 @@ public class APIconnection {
             }
             else if (userInput == 10) {
                 makeAMove();
+            }
+            else if (userInput == 11) {
+                getMovementRateFromRobot(robot1Id);
             }
             else if (userInput == 0){
                 System.out.println("exiting the program");
@@ -229,9 +235,9 @@ public class APIconnection {
                 response.append(responseLine.trim());
             }
             JSONObject responseObject = new JSONObject(response.toString());
-            robotId = responseObject.getString("id");
-            System.out.println("robotId: " + robotId);
-            return robotId;
+            robot1Id = responseObject.getString("id");
+            System.out.println("robotId: " + robot1Id);
+            return robot1Id;
         } catch (IOException e) {
             try (BufferedReader errorReader = new BufferedReader(
                     new InputStreamReader(connection.getErrorStream(), "utf-8"))) {
@@ -307,7 +313,7 @@ public class APIconnection {
         connection.setRequestProperty("Accept", "application/json");
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("robotId", robotId);
+        jsonObject.put("robotId", robot1Id);
 
         String jsonInputString = jsonObject.toString();
 
@@ -327,9 +333,9 @@ public class APIconnection {
                 response.append(responseLine.trim());
             }
             JSONObject responseObject = new JSONObject(response.toString());
-            playerId = responseObject.getString("playerId");
-            System.out.println("PlayerId: " + playerId);
-            return playerId;
+            player1Id = responseObject.getString("playerId");
+            System.out.println("PlayerId: " + player1Id);
+            return player1Id;
         } catch (IOException e) {
             try (BufferedReader errorReader = new BufferedReader(
                     new InputStreamReader(connection.getErrorStream(), StandardCharsets.UTF_8))) {
@@ -345,7 +351,7 @@ public class APIconnection {
     }
 
     public static void makeAMove()throws IOException{
-        URL url = new URL(baseURL + movingPlayerURL + gameId + "/move/player/" + playerId);
+        URL url = new URL(baseURL + movingPlayerURL + gameId + "/move/player/" + player1Id);
         System.out.println(url);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
@@ -356,7 +362,7 @@ public class APIconnection {
         connection.setRequestProperty("Accept", "application/json");
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("playerId", playerId);
+        jsonObject.put("playerId", player1Id);
         jsonObject.put("movementType", "ATTACK");
         jsonObject.put("mapIndex", 44);
         jsonObject.put("align", "W");
@@ -418,5 +424,155 @@ public class APIconnection {
             System.out.println("Index nicht gefunden.");
         }
     }
+
+    public static int getMovementRateFromRobot(String robotId) throws IOException {
+        URL url = new URL(baseURL + getBotURL + "/robot/" + robotId);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuffer content = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+        in.close();
+        connection.disconnect();
+
+        System.out.println("Response content: " + content);
+
+        JSONObject responseObject = new JSONObject(content.toString());
+        int movementRate = responseObject.getInt("movementRate");
+        System.out.println("movementRate: " + movementRate);
+
+        return movementRate;
+    }
+
+    public static String getGameStatus(String gameId) throws IOException {
+        URL url = new URL(baseURL + "/api/games/game/" + gameId);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuffer content = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+        in.close();
+        connection.disconnect();
+
+        System.out.println("Response content: " + content);
+
+        JSONObject responseObject = new JSONObject(content.toString());
+        String gameStatus = responseObject.getString("status");
+        System.out.println("Game status: " + gameStatus);
+
+        return gameStatus;
+    }
+
+    public static String getPlayer2Id(String gameId, String player1Id) throws IOException {
+        URL url = new URL(baseURL + "/api/games/game/" + gameId);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuffer content = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+        in.close();
+        connection.disconnect();
+
+        System.out.println("Response content: " + content);
+
+        JSONObject responseObject = new JSONObject(content.toString());
+        JSONArray players = responseObject.getJSONArray("players");
+
+        String player2Id = null;
+
+        for (int i = 0; i < players.length(); i++) {
+            JSONObject player = players.getJSONObject(i);
+            String currentPlayerId = player.getString("playerId");
+            if (!currentPlayerId.equals(player1Id)) {
+                player2Id = currentPlayerId;
+                break;
+            }
+        }
+
+        if (player2Id == null) {
+            throw new IOException("No valid player2Id found in the response.");
+        }
+
+        System.out.println("Player 2 Id: " + player2Id);
+        return player2Id;
+    }
+
+    public static String getRobot2Id(String gameId, String robot1Id) throws IOException {
+        URL url = new URL(baseURL + "/api/games/game/" + gameId);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuffer content = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+        in.close();
+        connection.disconnect();
+
+        System.out.println("Response content: " + content);
+
+        JSONObject responseObject = new JSONObject(content.toString());
+        JSONArray playersArray = responseObject.getJSONArray("players");
+
+        String robot2Id = null;
+
+        for (int i = 0; i < playersArray.length(); i++) {
+            JSONObject player = playersArray.getJSONObject(i);
+            String currentRobotId = player.getString("robotId");
+            if (!currentRobotId.equals(robot1Id)) {
+                robot2Id = currentRobotId;
+                break;
+            }
+        }
+
+        if (robot2Id == null) {
+            throw new IOException("No valid robot2Id found in the response for gameId: " + gameId);
+        }
+
+        System.out.println("Robot 2 Id: " + robot2Id);
+        return robot2Id;
+    }
+
+    public static int[] statsFromPlayer2(String robot2Id) throws IOException {
+        URL url = new URL(baseURL + "/api/robots/" + robot2Id);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuffer content = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+        in.close();
+        connection.disconnect();
+
+        System.out.println("Response content: " + content);
+
+        JSONObject robotObject = new JSONObject(content.toString());
+
+        int health = robotObject.getInt("health");
+        int attackDamage = robotObject.getInt("attackDamage");
+        int attackRange = robotObject.getInt("attackRange");
+        int movementRate = robotObject.getInt("movementRate");
+
+        return new int[] { health, attackDamage, attackRange, movementRate };
+    }
+
+
 }
 

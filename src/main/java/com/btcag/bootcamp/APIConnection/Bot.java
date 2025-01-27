@@ -15,7 +15,6 @@ public class Bot{
         this.movementRate = movementRate;
     }
 
-
     public int getAttackDamage() {
         return attackDamage;
     }
