@@ -2,7 +2,7 @@ package com.btcag.bootcamp.views;
 
 import com.btcag.bootcamp.models.Battlefield;
 
-public class BattlefieldView {
+public class BattlefieldView {/*
     public static void display(Battlefield battlefield) {
         printHeaderRow(battlefield.getWidth());
         for (char[] row : battlefield.getMap()) {
@@ -36,4 +36,5 @@ public class BattlefieldView {
         }
         System.out.println(end);
     }
+    */
 }

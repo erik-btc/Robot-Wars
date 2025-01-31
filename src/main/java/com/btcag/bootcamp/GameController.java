@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Random;
 
 public class GameController {
-    public static Random random = new Random();
+    /*public static Random random = new Random();
     public static Battlefield battlefield = new Battlefield(15, 10);
     public static int newX;
     public static int newY;
@@ -215,6 +215,6 @@ public class GameController {
             }
         } while (null == winner);
         //WinnerView.display(winner);
-    }
+    }*/
 }
 

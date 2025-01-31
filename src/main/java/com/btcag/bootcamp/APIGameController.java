@@ -29,6 +29,7 @@ public class APIGameController {
             ShowOptionsView.display();
             System.out.println("Input: ");
             userInput = scanner.nextInt();
+            scanner.nextLine();
             if (userInput == 1) {
                 CreatingTheGameView.display();
                 gameId = APIconnection.createGame();
@@ -41,7 +42,6 @@ public class APIGameController {
             else if (userInput == 2) {
                 EnterGameIdView.display();
                 gameId = scanner.nextLine();
-                Thread.sleep(5000);
                 JoiningTheGameView.display();
                 APIconnection.joinGame(gameId);
                 JoinedTheGameView.display();
@@ -69,13 +69,13 @@ public class APIGameController {
         //getting all the necessary information before the game can start
         if(Objects.equals(APIconnection.getGameStatus(gameId), "STARTED")) {
             player2Id = APIconnection.getPlayer2Id(gameId, player1Id);
-            robot2Id = APIconnection.getRobot2Id(gameId, robot2Id);
+            robot2Id = APIconnection.getRobot2Id(gameId, player2Id);
             int[] statsPlayer2 = APIconnection.statsFromPlayer2(robot2Id);
             bot2.setHealth(statsPlayer2[0]);
             bot2.setAttackDamage(statsPlayer2[1]);
             bot2.setAttackDamage(statsPlayer2[2]);
             bot2.setMovementRate(statsPlayer2[3]);
-            playersTurn = BotService.decidingWhoStarts(bot1, bot2);
+            System.out.println(bot2);
         }
         else{
             throw new RuntimeException();
@@ -93,15 +93,18 @@ public class APIGameController {
                     PlayersTurnView.display(bot1);
                     int action = AskActionView.display();
                     if(action == 1){
-
+                        //move
                     }
                     else if(action == 2){
-
+                        //attack
                     }
                     else if(action == 3){
-
+                        //align
                     }
-                    else if(action == 4){
+                    else if (action == 4){
+                        //end turn
+                    }
+                    else if(action == 5){
                         InvalidInputView.display();
                     }
                 }
@@ -111,19 +114,7 @@ public class APIGameController {
                 while(i != bot2.getMovementRate()){
                     battlefield.initializeMap();
                     PlayersTurnView.display(bot2);
-                    int action = AskActionView.display();
-                    if(action == 1){
 
-                    }
-                    else if(action == 2){
-
-                    }
-                    else if(action == 3){
-
-                    }
-                    else if(action == 4){
-                        InvalidInputView.display();
-                    }
                 }
             }
             turn++;

@@ -488,7 +488,7 @@ public class APIconnection {
         System.out.println("Response content: " + content);
 
         JSONObject responseObject = new JSONObject(content.toString());
-        JSONArray players = responseObject.getJSONArray("players");
+        JSONArray players = responseObject.getJSONArray("player");
 
         String player2Id = null;
 
@@ -509,46 +509,51 @@ public class APIconnection {
         return player2Id;
     }
 
-    public static String getRobot2Id(String gameId, String robot1Id) throws IOException {
+    public static String getRobot2Id(String gameId, String player2Id) throws IOException {
         URL url = new URL(baseURL + "/api/games/game/" + gameId);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
 
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder content = new StringBuilder();
         String inputLine;
-        StringBuffer content = new StringBuffer();
         while ((inputLine = in.readLine()) != null) {
             content.append(inputLine);
         }
         in.close();
         connection.disconnect();
 
-        System.out.println("Response content: " + content);
+        System.out.println("DEBUG: Full Response content: " + content);
 
         JSONObject responseObject = new JSONObject(content.toString());
-        JSONArray playersArray = responseObject.getJSONArray("players");
 
+        // Check if "player" array exists
+        if (!responseObject.has("player")) {
+            throw new IOException("ERROR: 'player' key not found in response");
+        }
+
+        JSONArray playersArray = responseObject.getJSONArray("player");
         String robot2Id = null;
 
         for (int i = 0; i < playersArray.length(); i++) {
             JSONObject player = playersArray.getJSONObject(i);
-            String currentRobotId = player.getString("robotId");
-            if (!currentRobotId.equals(robot1Id)) {
-                robot2Id = currentRobotId;
+            if (player.getString("playerId").equals(player2Id)) {
+                robot2Id = player.getString("robotId");
                 break;
             }
         }
 
         if (robot2Id == null) {
-            throw new IOException("No valid robot2Id found in the response for gameId: " + gameId);
+            throw new IOException("ERROR: No valid robot2Id found for player2Id: " + player2Id);
         }
 
-        System.out.println("Robot 2 Id: " + robot2Id);
+        System.out.println("DEBUG: Robot 2 ID: " + robot2Id);
         return robot2Id;
     }
 
+
     public static int[] statsFromPlayer2(String robot2Id) throws IOException {
-        URL url = new URL(baseURL + "/api/robots/" + robot2Id);
+        URL url = new URL(baseURL + "api/robots/robot/" + robot2Id);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
 
